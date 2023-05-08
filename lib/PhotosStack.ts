@@ -23,8 +23,14 @@ export class PhotosStack extends cdk.Stack {
 		this.initializeSuffix();
 
 		// Create a unique name for the basket
-		new Bucket(this, 'PhotosBucket2', {
+		const photosBUcket = new Bucket(this, 'PhotosBucket2', {
 			bucketName: `photos-bucket-${this.stackSuffix}`,
+		});
+
+    // export this bucket to reference resources around inside AWS
+		new cdk.CfnOutput(this, 'photos-bucket', {
+			value: photosBUcket.bucketArn,
+			exportName: 'photos-bucket',
 		});
 	}
 
