@@ -16,11 +16,11 @@ export class PhotosStack extends cdk.Stack {
 		// 	bucketName: 'photosbucket-234kjadsf13',
 		// });
 
-		this.initializeSuffix();
-
 		// (myBucket.node.defaultChild as CfnBucket).overrideLogicalId(
 		// 	'PhotosBucket22234kjadsf13'
 		// );
+
+		this.initializeSuffix();
 
 		// Create a unique name for the basket
 		new Bucket(this, 'PhotosBucket2', {
