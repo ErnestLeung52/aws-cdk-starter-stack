@@ -15,5 +15,13 @@ const app = new cdk.App();
 /*  Multiple Stack 
   - CDK does not deploy stacks in the below order, need to specify in cli to deploy which stack first
 */
-new PhotosStack(app, 'PhotosStack');
-new PhotosHandlerStack(app, 'PhotosHandlerStack');
+
+/* Sharing resources with CDK
+  - Passing in Arn from photosStack to PhotosHanlderStack to get the reference
+  - This way, CDK will understand the order of deployment of multiple stacks
+*/
+const photosStack = new PhotosStack(app, 'PhotosStack');
+
+new PhotosHandlerStack(app, 'PhotosHandlerStack', {
+	targetBucketArn: photosStack.photosBucketArn,
+});

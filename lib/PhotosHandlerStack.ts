@@ -8,13 +8,21 @@ import {
 	Runtime,
 } from 'aws-cdk-lib/aws-lambda';
 
+// 1. Use Fn.importValue to import from CfnOutput
+// 2. use props to receive other resources name
+
+interface PhotosHandlerStackProps extends cdk.StackProps {
+	targetBucketArn: string;
+}
+
 // CDK IDs
 export class PhotosHandlerStack extends cdk.Stack {
-	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+	// constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+	constructor(scope: Construct, id: string, props: PhotosHandlerStackProps) {
 		super(scope, id, props);
 
 		// Reference the target bucket by importing it
-		const targetBucket = Fn.importValue('photos-bucket');
+		// const targetBucket = Fn.importValue('photos-bucket');
 
 		// Lambda logic to place photo into S3
 		new LambdaFunction(this, 'PhotosHandler', {
@@ -26,7 +34,7 @@ export class PhotosHandlerStack extends cdk.Stack {
 			};
 		`),
 			environment: {
-				TARGET_BUCKET: targetBucket,
+				TARGET_BUCKET: props.targetBucketArn,
 			},
 		});
 	}
